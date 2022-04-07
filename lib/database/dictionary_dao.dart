@@ -8,19 +8,22 @@ class DictionaryDao extends DatabaseAccessor<DictionaryDatabase> with _$Dictiona
   DictionaryDao(DictionaryDatabase dictionaryDatabase) : super(dictionaryDatabase);
 
   Future<List<DictionaryTableData>> getAllWord() async{
-    return await select(dictionaryTable)
+    return await (select(dictionaryTable)
+    ..limit(20))
     .get();
   }
 
   Future<List<DictionaryTableData>> searchWord(String words) async{
     return await (select(dictionaryTable)
     ..where((tbl) => tbl.eng.like('$words%'))
+    ..limit(20)
     ).get();
   }
 
   Future<List<DictionaryTableData>> favouriteWord() async{
     return await (select(dictionaryTable)
     ..where((tbl) => tbl.favourite.isNotNull())
+    ..limit(20)
     ).get();
   }
 
